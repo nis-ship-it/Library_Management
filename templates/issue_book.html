@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Issue Book</title>
+</head>
+<body>
+    <h1>Issue Book</h1>
+    <form action="" method="post">
+        <label for="book_id">Select Book:</label>
+        <select id="book_id" name="book_id" required>
+            {% for book in books %}
+            <option value="{{ book.id }}">{{ book.title }}</option>
+            {% endfor %}
+        </select><br>
+        
+        <label for="member_id">Select Member:</label>
+        <select id="member_id" name="member_id" required>
+            {% for member in members %}
+            <option value="{{ member.id }}">{{ member.name }}</option>
+            {% endfor %}
+        </select><br>
+        
+        <button type="submit">Issue Book</button>
+    </form>
+    <a href="/">Back</a>
+</body>
+</html>
+

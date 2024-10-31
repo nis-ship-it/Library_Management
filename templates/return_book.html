@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Return Book</title>
+</head>
+<body>
+    <h1>Return Book</h1>
+    <form action="" method="post">
+        <label for="transaction_id">Select Transaction:</label>
+        <select id="transaction_id" name="transaction_id" required>
+            {% for transaction in transactions %}
+            <option value="{{ transaction.id }}">Book ID: {{ transaction.book_id }} - Member ID: {{ transaction.member_id }}</option>
+            {% endfor %}
+        </select><br>
+        
+        <button type="submit">Return Book</button>
+    </form>
+    <a href="/">Back</a>
+</body>
+</html>
+
