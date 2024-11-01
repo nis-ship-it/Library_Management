@@ -89,11 +89,8 @@ def issue_book():
                 issue_date=datetime.now(),
             )
             db.session.add(new_transaction)
-            member.outstanding_debt += 10  # Charge ₹10 on issue
             db.session.commit()
-            flash(
-                "Book issued successfully! A fee of ₹10 has been added to your outstanding debt."
-            )
+            flash("Book issued successfully!")
         else:
             flash("Book not available!")
         return redirect(url_for("index"))
@@ -232,29 +229,64 @@ def transactions():
 @app.route("/return_book/<int:transaction_id>", methods=["GET", "POST"])
 def return_book(transaction_id):
     transaction = db.session.get(Transaction, transaction_id)
-    if request.method == "POST":
-        member_id = request.form["member_id"]
-        member = db.session.get(Member, member_id)
 
-        if transaction:
-            book = db.session.get(Book, transaction.book_id)
-            if book:
-                book.stock += 1  # Increment stock
-                days_issued = (datetime.now() - transaction.issue_date).days
-                total_fee = days_issued * 10
-                member.outstanding_debt += total_fee  # Charge based on days issued
+    if transaction:
+        current_date = datetime.now()
+        difference = (current_date - transaction.issue_date).days
+
+        # Assuming per_day_fee is constant (e.g., ₹10)
+        per_day_fee = 10.0
+        total_charge = difference * per_day_fee
+
+        if request.method == "POST":
+            member_id = request.form["member_id"]
+            amount_paid = float(
+                request.form["amount_paid"]
+            )  # Amount received from the member
+            member = db.session.get(Member, member_id)
+
+            if member:
+                # Check if the total outstanding debt exceeds ₹500
+                if member.outstanding_debt + total_charge > 500:
+                    flash(
+                        "Total outstanding debt cannot exceed ₹500. Please collect less."
+                    )
+                    return redirect(
+                        url_for("return_book", transaction_id=transaction.id)
+                    )
+
+                # Update member outstanding debt
+                member.outstanding_debt += (
+                    total_charge - amount_paid
+                )  # Adjust outstanding debt by the amount paid
+                transaction.amount_paid = amount_paid  # Record the amount paid
+                db.session.commit()
+
+                # Return book and delete transaction
+                book = db.session.get(Book, transaction.book_id)
+                if book:
+                    book.stock += 1  # Increment stock
                 db.session.delete(transaction)
                 db.session.commit()
-                flash(f"Book returned successfully! Total fee charged: ₹{
-                      total_fee}.")
-            else:
-                flash("Book not found.")
-        else:
-            flash("Transaction not found.")
-        return redirect(url_for("index"))
 
-    members = Member.query.all()
-    return render_template("return_book.html", members=members, transaction=transaction)
+                flash(
+                    f"Book returned successfully! Total fee charged: ₹{total_charge}. Amount paid: ₹{
+                        amount_paid}. Outstanding debt: ₹{member.outstanding_debt}."
+                )
+                return redirect(url_for("transactions"))
+
+        members = Member.query.all()
+        return render_template(
+            "return_book.html",
+            transaction=transaction,
+            difference=difference,
+            total_charge=total_charge,
+            per_day_fee=per_day_fee,
+            members=members,
+        )
+    else:
+        flash("Transaction not found.")
+        return redirect(url_for("transactions"))
 
 
 @app.route("/book/<int:book_id>")

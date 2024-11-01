@@ -4,6 +4,12 @@
 {% block content %}
     <div class="container mt-5">
         <h1 class="text-center">Return Book</h1>
+        
+        <h5>Per Day Fee: <b>₹{{ per_day_fee }}</b></h5>
+        <h5>Borrowed On: <b>{{ transaction.issue_date.strftime('%Y-%m-%d') }}</b></h5>
+        <h5>Rented for: <b>{{ difference }} days</b></h5>
+        <h5>Amount Due: <b>₹{{ total_charge }}</b></h5>
+        
         <form method="POST" action="">
             <div class="form-group">
                 <label for="member_id">Select Member:</label>
@@ -14,13 +20,14 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="fee">Amount Received:</label>
-                <input type="number" id="fee" name="fee" class="form-control" required>
+                <label for="amount_paid">Amount Received:</label>
+                <input type="number" id="amount_paid" name="amount_paid" class="form-control" required>
             </div>
             <button type="submit" class="btn btn-primary">Confirm Return</button>
             <a href="/transactions" class="btn btn-secondary">Back to Transactions</a>
         </form>
     </div>
 {% endblock %}
+
 
 

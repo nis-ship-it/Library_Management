@@ -27,5 +27,5 @@ class Transaction(db.Model):
         "member.id"), nullable=False)
     issue_date = db.Column(db.DateTime)
     return_date = db.Column(db.DateTime)
-    per_day_fee = db.Column(db.Float, default=10)
+    per_day_fee = db.Column(db.Float, default=0)
     amount_paid = db.Column(db.Float, default=0)
