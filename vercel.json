@@ -1,4 +1,9 @@
-{  
-    "redirects": [{ "source": "/", "destination": "./app.py" }]
+{
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "api/app.py"
+    }
+  ]
 }
 
