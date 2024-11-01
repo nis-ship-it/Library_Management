@@ -1,4 +1,5 @@
 
+
 {% extends "base.html" %}
 
 {% block content %}
@@ -11,12 +12,27 @@
             </div>
 
             <div class="form-group">
+                <label for="authors">Authors (optional):</label>
+                <input type="text" id="authors" name="authors" class="form-control" placeholder="Enter author names...">
+            </div>
+
+            <div class="form-group">
+                <label for="isbn">ISBN (optional):</label>
+                <input type="text" id="isbn" name="isbn" class="form-control" placeholder="Enter ISBN...">
+            </div>
+
+            <div class="form-group">
+                <label for="publisher">Publisher (optional):</label>
+                <input type="text" id="publisher" name="publisher" class="form-control" placeholder="Enter publisher name...">
+            </div>
+
+            <div class="form-group">
                 <label for="count">Number of Books to Import:</label>
                 <input type="number" id="count" name="count" class="form-control" required placeholder="Enter number of books to import...">
             </div>
 
-        <button type="submit" class="btn btn-primary">Import Books</button>
-        <a href="/books" class="btn btn-secondary">Back to Books</a>
+            <button type="submit" class="btn btn-primary">Import Books</button>
+            <a href="/books" class="btn btn-secondary">Back to Books</a>
         </form>
     </div>
 {% endblock %}

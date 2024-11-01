@@ -117,25 +117,28 @@ def search_books():
 def import_books():
     if request.method == "POST":
         title = request.form.get("title", "")
+        authors = request.form.get("authors", "")
+        isbn = request.form.get("isbn", "")
+        publisher = request.form.get("publisher", "")
         total_count = int(request.form.get("count", 1))
 
         books_imported = 0
         page = 1
 
         while books_imported < total_count:
-            response = requests.get(
-                f"https://frappe.io/api/method/frappe-library?page={
-                    page}&title={title}"
-            )
+            # Construct the API URL with additional parameters
+            api_url = f"https://frappe.io/api/method/frappe-library?page={page}&title={
+                title}&authors={authors}&isbn={isbn}&publisher={publisher}"
+            response = requests.get(api_url)
 
             if response.status_code != 200:
-                flash("Failed to fetch data from the API.")
-                return redirect(url_for("index"))
+                flash("Failed to fetch data from the API. Please try again later.")
+                return redirect(url_for("import_books"))
 
             books = response.json().get("message", [])
 
             if not books:
-                flash("No more books found.")
+                flash("No more books found or reached the total count.")
                 break
 
             for book in books:
