@@ -1,56 +1,37 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container mt-5">
-    <h1 class="text-center">Transactions</h1>
-    <a class="btn btn-success mb-3" href="{{ url_for('issue_book') }}">Issue Book</a>
-    <hr>
-
-    {% if transactions %}
-    <table class="table table-hover table-striped">
-        <thead>
-            <tr>
-                <th>Transaction ID</th>
-                <th>Book ID</th>
-                <th>Member ID</th>
-                <th>Issue Date</th>
-                <th>Per Day Renting Fee</th>
-                <th>Total Charge</th>
-                <th>Amount Paid</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for transaction in transactions %}
-            <tr>
-                <td>{{ transaction.id }}</td>
-                <td>
-                    <a href="{{ url_for('book_detail', book_id=transaction.book_id) }}" class="btn btn-dark">{{ "{:05d}".format(transaction.book_id) }}</a>
-                </td>
-                <td>
-                    <a href="{{ url_for('member_detail', member_id=transaction.member_id) }}" class="btn btn-dark">{{ "{:03d}".format(transaction.member_id) }}</a>
-                </td>
-                <td>{{ transaction.issue_date }}</td>
-                <td>{{ transaction.per_day_fee }}</td>
-                <td>{{ transaction.total_charge }}</td>
-                <td>{{ transaction.amount_paid }}</td>
-                <td>
-                    {% if transaction.amount_paid == 0 %}
-                    <a href="{{ url_for('return_book', transaction_id=transaction.id) }}" class="btn btn-danger">Return Book</a>
-                    {% else %}
-                    <span class="text-muted">Closed</span>
-                    {% endif %}
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    {% else %}
-    <div class="alert alert-warning">No transactions found.</div>
-    {% endif %}
-
-    <a href="/" class="btn btn-secondary mt-3">Back</a>
-</div>
+    <div class="container mt-5">
+        {% if transactions %}
+        <table class="table table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>Transaction ID</th>
+                    <th>Book ID</th>
+                    <th>Member ID</th>
+                    <th>Issue Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for transaction in transactions %}
+                <tr>
+                    <td>{{ transaction.id }}</td>
+                    <td>{{ transaction.book_id }}</td>
+                    <td>{{ transaction.member_id }}</td>
+                    <td>{{ transaction.issue_date }}</td>
+                    <td>
+                        <a href="{{ url_for('return_book', transaction_id=transaction.id) }}" class="btn btn-danger">Return Book</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No transactions found.</p>
+        {% endif %}
+        
+        <a href="/" class="btn btn-secondary mt-3">Back</a>
+    </div>
 {% endblock %}
-
 
