@@ -1,50 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <title>Library Management</title>
-</head>
-<body>
-    <h1>Library Management System</h1>
-    <h2>Books</h2>
-    <table>
-        <tr>
-            <th>Title</th>
-            <th>Authors</th>
-            <th>ISBN</th>
-            <th>Stock</th>
-        </tr>
-        {% for book in books %}
-        <tr>
-            <td>{{ book.title }}</td>
-            <td>{{ book.authors }}</td>
-            <td>{{ book.isbn }}</td>
-            <td>{{ book.stock }}</td>
-        </tr>
-        {% endfor %}
-    </table>
+{% extends "base.html" %}
 
-    <h2>Members</h2>
-    <table>
-        <tr>
-            <th>Name</th>
-            <th>Outstanding Debt</th>
-        </tr>
-        {% for member in members %}
-        <tr>
-            <td>{{ member.name }}</td>
-            <td>{{ member.outstanding_debt }}</td>
-        </tr>
-        {% endfor %}
-    </table>
+{% block title %}Library Management{% endblock %}
 
-    <a href="/add_book">Add Book</a>
-    <a href="/add_member">Add Member</a>
-    <a href="/issue_book">Issue Book</a>
-    <a href="/return_book">Return Book</a>
-    <a href="/import_books">Import Books</a>
-</body>
-</html>
+{% block content %}
+    <div class="text-center">
+        <h1>Library Management System</h1>
+        <p class="lead"> Web Application built for Frappe's Hiring Test.</p>
+
+        <div class="mt-4">
+            <a href="/books" class="btn btn-primary mx-2">Books</a>
+            <a href="/members" class="btn btn-secondary mx-2">Members</a>
+            <a href="/transactions" class="btn btn-success mx-2">Transactions</a>
+        </div>
+    </div>
+{% endblock %}
 

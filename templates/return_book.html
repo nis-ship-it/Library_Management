@@ -1,24 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <title>Return Book</title>
-</head>
-<body>
-    <h1>Return Book</h1>
-    <form action="" method="post">
-        <label for="transaction_id">Select Transaction:</label>
-        <select id="transaction_id" name="transaction_id" required>
-            {% for transaction in transactions %}
-            <option value="{{ transaction.id }}">Book ID: {{ transaction.book_id }} - Member ID: {{ transaction.member_id }}</option>
-            {% endfor %}
-        </select><br>
-        
-        <button type="submit">Return Book</button>
-    </form>
-    <a href="/">Back</a>
-</body>
-</html>
+
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h1 class="text-center">Return Book</h1>
+        <form method="POST" action="">
+            <div class="form-group">
+                <label for="member_id">Select Member:</label>
+                <select id="member_id" name="member_id" class="form-control" required>
+                    {% for member in members %}
+                    <option value="{{ member.id }}">{{ member.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="fee">Amount Received:</label>
+                <input type="number" id="fee" name="fee" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Confirm Return</button>
+            <a href="/transactions" class="btn btn-secondary">Back to Transactions</a>
+        </form>
+    </div>
+{% endblock %}
+
 

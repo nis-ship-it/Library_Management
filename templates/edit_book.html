@@ -3,31 +3,30 @@
 
 {% block content %}
     <div class="container mt-5">
-        <h1>Add New Book</h1>
+        <h1>Edit Book</h1>
         <form action="" method="post">
             <div class="form-group">
                 <label for="title">Title:</label>
-                <input type="text" id="title" name="title" class="form-control" required>
+                <input type="text" id="title" name="title" class="form-control" value="{{ book.title }}" required>
             </div>
             <div class="form-group">
                 <label for="authors">Authors:</label>
-                <input type="text" id="authors" name="authors" class="form-control" required>
+                <input type="text" id="authors" name="authors" class="form-control" value="{{ book.authors }}" required>
             </div>
             <div class="form-group">
                 <label for="isbn">ISBN:</label>
-                <input type="text" id="isbn" name="isbn" class="form-control" required>
+                <input type="text" id="isbn" name="isbn" class="form-control" value="{{ book.isbn }}" required>
             </div>
             <div class="form-group">
                 <label for="publisher">Publisher:</label>
-                <input type="text" id="publisher" name="publisher" class="form-control">
+                <input type="text" id="publisher" name="publisher" class="form-control" value="{{ book.publisher }}">
             </div>
             <div class="form-group">
                 <label for="stock">Stock:</label>
-                <input type="number" id="stock" name="stock" class="form-control" required>
+                <input type="number" id="stock" name="stock" class="form-control" value="{{ book.stock }}" required>
             </div>
-            <button type="submit" class="btn btn-primary">Add Book</button>
+            <button type="submit" class="btn btn-primary">Update Book</button>
             <a href="/books" class="btn btn-secondary">Back to Books</a>
         </form>
     </div>
 {% endblock %}
-
