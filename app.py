@@ -83,6 +83,7 @@ def issue_book():
 
         if book and book.stock > 0:
             book.stock -= 1
+            book.rentedCount += 1
             new_transaction = Transaction(
                 book_id=book.id,
                 member_id=member.id,
@@ -210,8 +211,7 @@ def edit_member(id):
     if request.method == "POST":
         member.name = request.form["name"]
         member.email = request.form["email"]
-        member.outstanding_debt = request.form.get(
-            "outstanding_debt", 0, type=float)
+        member.outstanding_debt = request.form.get("outstanding_debt", 0, type=float)
 
         db.session.commit()  # Save changes to database
         flash("Member updated successfully!")
@@ -266,6 +266,7 @@ def return_book(transaction_id):
                 book = db.session.get(Book, transaction.book_id)
                 if book:
                     book.stock += 1  # Increment stock
+                    book.rentedCount -= 1
                 db.session.delete(transaction)
                 db.session.commit()
 
