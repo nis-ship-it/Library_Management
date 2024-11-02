@@ -2,7 +2,7 @@
 
 A Library Management Web Application built in fulfilment of the Developer Hiring Test for Frappe. (Built with Flask, SQLite)
 
-## Access: https://test.justarandomdev.com/
+## Access: https://test.justarandomdev.com/ (self hosted just for fun!!)
 
 ## Getting Started
 1. Install requirements
