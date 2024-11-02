@@ -83,7 +83,7 @@ def issue_book():
 
         if book and book.stock > 0:
             book.stock -= 1
-            book.rentedCount += 1
+            book.rented_count += 1
             new_transaction = Transaction(
                 book_id=book.id,
                 member_id=member.id,
@@ -153,7 +153,7 @@ def import_books():
                         authors=book["authors"],
                         isbn=book["isbn"],
                         publisher=book["publisher"],
-                        stock=1,  # Default stock when importing
+                        stock=1,  # Defau:lt stock when importing
                     )
                     db.session.add(new_book)
                     books_imported += 1
@@ -266,7 +266,7 @@ def return_book(transaction_id):
                 book = db.session.get(Book, transaction.book_id)
                 if book:
                     book.stock += 1  # Increment stock
-                    book.rentedCount -= 1
+                    book.rented_count -= 1
                 db.session.delete(transaction)
                 db.session.commit()
 
